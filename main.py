@@ -4,8 +4,7 @@ import httpx
 
 app = FastAPI()
 
-# Fetch the webhook from the environment (Coolify will provide this)
-DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
+DISCORD_WEBHOOK_URL = os.getenv("https://discord.com/api/webhooks/1550512590864523364/tkY3diyOX17fY5T5brPIBTKnPoub0KGEIRpTcvgV0k7PyFUdX9NbVSFBO6JmbIqOlPti")
 
 @app.post("/webhooks/github")
 async def github_listener(request: Request):
@@ -20,10 +19,9 @@ async def github_listener(request: Request):
     pr_url = pr.get("html_url", "")
     
     discord_message = {
-        "content": f"🚨 @here **New Pull Request!**\n**{author}** wants to merge: *{title}*\n🔗 {pr_url}"
+        "content": f"@here **New Pull Request!**\n**{author}** wants to merge: *{title}*\n🔗 {pr_url}"
     }
     
-    # Safety check in case the .env variable is missing
     if not DISCORD_WEBHOOK_URL:
         return {"status": "Error", "message": "DISCORD_WEBHOOK_URL not set in environment."}
         
