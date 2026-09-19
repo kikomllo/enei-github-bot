@@ -4,7 +4,6 @@ import httpx
 
 app = FastAPI()
 
-# Fetch the webhook from the environment (Coolify will provide this)
 DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
 
 @app.post("/webhooks/github")
@@ -23,7 +22,6 @@ async def github_listener(request: Request):
         "content": f"@here **New Pull Request!**\n**{author}** wants to merge: *{title}*\n🔗 {pr_url}"
     }
     
-    # Safety check in case the .env variable is missing
     if not DISCORD_WEBHOOK_URL:
         return {"status": "Error", "message": "DISCORD_WEBHOOK_URL not set in environment."}
         
